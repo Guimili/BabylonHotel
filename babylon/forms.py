@@ -26,7 +26,7 @@ class BookingForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    user = StringField('Usuário', validators=[DataRequired()])
+    username = StringField('Usuário', validators=[DataRequired()])
     password = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Login')
 
