@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Registrar Reserva</legend>
+                <!-- Nome Cliente -->
+                <div class="form-group">
+                    {{ form.client.label(class="form-control-label text-muted") }}
+                    {% if form.client.errors %}
+                        {{ form.client(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.client.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.client(class="form-control form-control-lg", placeholder="Nome Completo") }}
+                    {% endif %}
+                </div>
+                <!-- Quantidade de Pessoas -->
+                <div class="form-group">
+                    {{ form.number.label(class="form-control-label text-muted") }}
+                    {% if form.number.errors %}
+                        {{ form.number(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.number.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.number(class="form-control form-control-lg", placeholder="Quantidade de Pessoas") }}
+                    {% endif %}
+                </div>
+                <!-- Número do Quarto -->
+                <div class="form-group">
+                    {{ form.room.label(class="form-control-label text-muted") }}
+                    {% if form.room.errors %}
+                        {{ form.room(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.room.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.room(class="form-control form-control-lg", placeholder="Quarto") }}
+                    {% endif %}
+                </div>
+                <!-- Check-in -->
+                <div class="form-group">
+                    {{ form.check_in.label(class="form-control-label text-muted") }}
+                    {% if form.check_in.errors %}
+                        {{ form.check_in(class="form-control form-control-lg is-invalid", type="datetime-local") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.check_in.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.check_in(class="form-control form-control-lg", type="datetime-local") }}
+                    {% endif %}
+                </div>
+                <!-- Check-out -->
+                <div class="form-group">
+                    {{ form.check_out.label(class="form-control-label text-muted") }}
+                    {% if form.check_out.errors %}
+                        {{ form.check_out(class="form-control form-control-lg is-invalid", type="datetime-local") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.check_out.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.check_out(class="form-control form-control-lg", type="datetime-local") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}
