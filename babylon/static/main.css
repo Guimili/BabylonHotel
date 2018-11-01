@@ -8,8 +8,12 @@ h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
 
+ul{
+  list-style-type: none;
+}
+
 ::placeholder {
-  color: red;
+  color: #333333;
   opacity: 1; /* Firefox */
 }
 
@@ -21,20 +25,16 @@ h1, h2, h3, h4, h5, h6 {
  color: red;
 }
 
-::placeholder{
-  color: #ffffff;
-}
-
 .bg-steel {
   background-color: #5f788a;
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #ffffff;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #333333;
 }
 
 .site-header .navbar-nav .nav-link.active {

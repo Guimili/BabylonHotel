@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Buscar Cliente</legend>
+                <!-- Nome Cliente -->
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label text-muted") }}
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg", placeholder="Nome Completo") }}
+                    {% endif %}
+                </div>
+                <!-- Email -->
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label text-muted") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg", placeholder="E-mail") }}
+                    {% endif %}
+                </div>
+                <!-- RG -->
+                <div class="form-group">
+                    {{ form.rg.label(class="form-control-label text-muted") }}
+                    {% if form.rg.errors %}
+                        {{ form.rg(class="form-control form-control-lg is-invalid", maxlength=11) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.rg.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.rg(class="form-control form-control-lg", placeholder="RG", maxlength=11) }}
+                    {% endif %}
+                </div>
+                <!-- CPF -->
+                <div class="form-group">
+                    {{ form.cpf.label(class="form-control-label text-muted") }}
+                    {% if form.cpf.errors %}
+                        {{ form.cpf(class="form-control form-control-lg is-invalid", maxlength=11) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.cpf.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.cpf(class="form-control form-control-lg", placeholder="CPF", maxlength=11) }}
+                    {% endif %}
+                </div>
+                <!-- Telefone -->
+                <div class="form-group">
+                    {{ form.phone.label(class="form-control-label text-muted") }}
+                    {% if form.phone.errors %}
+                        {{ form.phone(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.phone.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.phone(class="form-control form-control-lg", placeholder="(__) ____-____") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info", value="Buscar") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% for client in clients.items %}
+      
+        <article class="media content-section">
+        <a href="{{ url_for('client', client_id=client.id) }}" style="text-decoration: none; color: #333333">
+          <div class="media-body">
+              <h6 style="margin: 0">Cliente: </h6>
+              <p style="margin: 0 0 5px 0">{{ client.name }}</p>
+              <h6 style="margin: 0">E-mail: </h6>
+              <p style="margin: 0 0 5px 0">{{ client.email }}</p>
+              <h6 style="margin: 0">Telfone:</h6>
+              <p style="margin: 0 0 5px 0">{{ client.phone }}</p>
+              <h6 style="margin: 0">Endereço:</h6>
+              <p style="margin: 0 0 5px 0">{{ client.address }}</p>
+          </div>
+        </a>
+        </article>
+        {% endfor %}
+
+        {% for page_num in clients.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+              {% if clients.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('list_clients', page=page_num) }}">{{ page_num }}</a>
+              {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('list_clients', page=page_num) }}">{{ page_num }}</a>
+              {% endif %}
+            {% else %}
+              <span class="btn btn-outline-info mb-4">...</span>
+            {% endif %}
+        {% endfor %}
+{% endblock content %}

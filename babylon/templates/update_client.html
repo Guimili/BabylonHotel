@@ -1,0 +1,163 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Atualizar Dados do Cliente</legend>
+                <!-- Email -->
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label text-muted") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg", placeholder="E-mail") }}
+                    {% endif %}
+                </div>
+                <!-- Telefone -->
+                <div class="form-group">
+                    {{ form.phone.label(class="form-control-label text-muted") }}
+                    {% if form.phone.errors %}
+                        {{ form.phone(class="form-control form-control-lg is-invalid", maxlength=11) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.phone.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.phone(class="form-control form-control-lg", placeholder="(__) ____-____", maxlength=11 )}}
+                    {% endif %}
+                </div>
+                <!-- Sexo -->
+                <div class="form-group">
+                    {{ form.sex.label(class="form-control-label text-muted") }}
+                    {% if form.sex.errors %}
+                        {{ form.sex(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.sex.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.sex(class="form-control form-control-lg", placeholder="Sexo") }}
+                    {% endif %}
+                </div>
+                <!-- Endereço -->
+                <div class="form-group">
+                    {{ form.address.label(class="form-control-label text-muted") }}
+                    {% if form.address.errors %}
+                        {{ form.address(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.address.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.address(class="form-control form-control-lg", placeholder="Endereço") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info", value="Buscar") }}
+            </div>
+        </form>
+    </div>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+    <script>
+        $("#telefone")
+            .mask("(99) 9999-9999?9")
+            .focusout(function (event) {  
+                var target, phone, element;  
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+                phone = target.value.replace(/\D/g, '');
+                element = $(target);  
+                element.unmask();  
+                if(phone.length > 10) {  
+                    element.mask("(99) 99999-999?9");  
+                } else {  
+                    element.mask("(99) 9999-9999?9");  
+                }
+        });
+        $("#cpf")
+            .mask("999-999-999-99")
+            .focusout(function (event) {  
+                var target, cpf, element;  
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+                cpf = target.value.replace(/\D/g, '');
+                element = $(target);  
+                element.unmask();
+        });
+        $("#rg")
+            .mask("99-999-999-9")
+            .focusout(function (event) {  
+                var target, rg, element;  
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+                rg = target.value.replace(/\D/g, '');
+                element = $(target);  
+                element.unmask();
+                if(rg.length > 8) {  
+                    element.mask("99-999-999-9");  
+                } else {  
+                    element.mask("99-999-999");  
+                }
+        });
+        $(document).ready(function() {
+
+            function limpa_formulário_cep() {
+                // Limpa valores do formulário de cep.
+                $("#address").val("");
+            }
+
+            //Quando o campo cep perde o foco.
+            $("#cep").blur(function() {
+
+                //Nova variável "cep" somente com dígitos.
+                var cep = $(this).val().replace(/\D/g, '');
+
+                //Verifica se campo cep possui valor informado.
+                if (cep != "") {
+
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Valida o formato do CEP.
+                    if(validacep.test(cep)) {
+
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        $("#address").val("...");
+
+                        //Consulta o webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                            if (!("erro" in dados)) {
+                                //Atualiza os campos com os valores da consulta.
+                                $("#address").val(dados.logradouro);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                limpa_formulário_cep();
+                                alert("CEP não encontrado.");
+                            }
+                        });
+                    } //end if.
+                    else {
+                        //cep é inválido.
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                    }
+                } //end if.
+                else {
+                    //cep sem valor, limpa formulário.
+                    limpa_formulário_cep();
+                }
+            });
+            });
+    </script> -->
+{% endblock content %}
