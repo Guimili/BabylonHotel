@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+        <article class="media content-section">
+          <div class="media-body">
+              <h2 class="arcticle-title">{{ employee.name }}</h2>
+              <div>
+              </div>
+              <p class="article-content">
+                <strong>E-mail:</strong> {{ employee.email }}
+                <strong>RG:</strong> {{ employee.rg }}
+                <strong>CPF:</strong> {{ employee.cpf }}
+                <strong>Idade: </strong> {{ today.year - employee.birthdate.year }}
+                <strong>Data de Nascimento:</strong> {{ employee.birthdate.strftime("%d/%m/%Y")  }}
+                <strong>Telefone:</strong> {{ employee.phone }}
+                <strong>Sexo: </strong>{% if employee.sex == 'M' %}Masculino{% elif employee.sex == 'F' %}Feminino{% else %}Não Declarado{% endif %}
+                <strong>Endereço: </strong>{{ employee.address }}
+              </p>
+          </div>
+        </article>
+        {% if bookings %}
+
+          <h2 class="article-title">Reservas ativas do usuário:</h2>
+          {% for booking in bookings.items %}
+        
+                <article class="media content-section">
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-1">Registrado em {{ booking.date_booking.strftime('%d/%m/%Y') }}</a>
+                    </div>
+                      <h3>Dados da <a class="article-title" href="{{ url_for('booking', booking_id=booking.id) }}">reserva #{{ booking.id }}</a></h3>
+                      <h6 style="margin: 0">Cliente: </h6>
+                      <p style="margin: 0 0 5px 0"><a style="text-decoration: none" href="{{url_for('client', client_id=booking.client.id)}}">{{ booking.client.name }}</a></p>
+                      <h6 style="margin: 0">Quarto: </h6>
+                      <p style="margin: 0 0 5px 0">{{ booking.room_number }}</p>
+                  </div>
+              </article>
+              {% endfor %}
+              {% for page_num in bookings.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                  {% if bookings.page == page_num %}
+                    <a class="btn btn-info mb-4" href="{{ url_for('bookings', page=page_num) }}">{{ page_num }}</a>
+                  {% else %}
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('bookings', page=page_num) }}">{{ page_num }}</a>
+                  {% endif %}
+                {% else %}
+                  <span class="btn btn-outline-info mb-4">...</span>
+                {% endif %}
+              {% endfor %}
+        {% else %}
+          <h2 class="article-title">Não há reservas ativas para o usuário:</h2>
+        {% endif %}
+{% endblock content %}

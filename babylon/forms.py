@@ -1,34 +1,28 @@
 from datetime import datetime
 from babylon import bcrypt
-from babylon.models import Client
+from babylon.models import Client, Room, Products
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateTimeField, DateField, IntegerField, RadioField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, DateTimeField, DateField, IntegerField, RadioField, SelectField, TextAreaField, FloatField
 from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email, Length
 
-def get_choices():
-    choices = []
-    clients = Client.query.all()
-    for client in clients:
-        choices.append((client.name, client.name))
-    return choices
-
 class BookingForm(FlaskForm):
-    client = SelectField('Cliente', choices=get_choices(), validators=[DataRequired(message='É necessário selecionar o Cliente!')])
-    room = IntegerField('Quarto', validators=[DataRequired(message='É necessário fornecer o número do Quarto!')])
+    client = SelectField('Cliente', choices=[(c.name, c.name) for c in Client.query.all()] ,validators=[DataRequired(message='É necessário selecionar o Cliente!')])
+    room = SelectField('Quarto', choices=[(str(r.number), r.number) for r in Room.query.filter_by(available=True).all()] ,validators=[DataRequired(message='É necessário selecionar o Quarto!')])
+    # room = IntegerField('Quarto', validators=[DataRequired(message='É necessário fornecer o número do Quarto!')])
     check_in = DateTimeField('Entrada', validators=[DataRequired(message='É necessário fornecer a data de Check-in!')],\
         format="%Y-%m-%dT%H:%M")
-    check_out = DateTimeField('Saída', validators=[DataRequired(message='É necessário fornecer o nome do Check-out!')],\
+    check_out = DateTimeField('Saída', validators=[DataRequired(message='É necessário fornecer a data do Check-out!')],\
         format="%Y-%m-%dT%H:%M")
     number = IntegerField('Numero de Pessoas', validators=[DataRequired(message='É necessário fornecer a quantidade de pessoas!'),\
         NumberRange(min=1, max=10, message='É permitido um máximo de 10 pessoas!')])
     submit = SubmitField('Fazer Reserva')
 
     def validate_check_in(self, check_in):
-        if check_in < datetime.utcnow():
+        if check_in.data < datetime.utcnow():
             raise ValidationError('A data de check-in deve ser posterior ao dia de hoje!')
 
     def validate_check_out(self, check_out):
-        if check_out < self.check_in.data:
+        if check_out.data <= self.check_in.data:
             raise ValidationError('A data de check-out deve ser posterior à data de check-in!')
 
 class ClientForm(FlaskForm):
@@ -98,3 +92,8 @@ class SearchForm(FlaskForm):
     cpf = StringField('CPF')
     phone = StringField('Telefone')
     submit = SubmitField('Buscar')
+
+class ProductsForm(FlaskForm):
+    products = SelectField('Produtos', choices=[(str(p.id), p.name) for p in Products.query.all()] ,validators=[DataRequired(message='É necessário selecionar um produto!')])
+    submit = SubmitField('Adicionar')
+

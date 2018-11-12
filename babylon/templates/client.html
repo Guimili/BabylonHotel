@@ -7,7 +7,12 @@
               <h2 class="arcticle-title">{{ client.name }}</h2>
               <div>
                 <a href="{{ url_for('update_client', client_id=client.id) }}" class="btn btn-secondary btn-sm mb-1 mt-1">Atualizar</a>
-                <a href="{{ url_for('register_booking') }}" class="btn btn-success btn-sm mb-1 mt-1">Criar Reserva</a>
+                {% if booking %}
+                  <a href="{{ url_for('booking', booking_id=booking.id) }}" class="btn btn-success btn-sm mb-1 mt-1">Ver Reserva</a>
+                {% else %}
+                  <a href="{{ url_for('register_booking') }}" class="btn btn-success btn-sm mb-1 mt-1">Criar Reserva</a>
+                {% endif %}
+                
                 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal" >Descadastrar</button>
               </div>
               <p class="article-content">

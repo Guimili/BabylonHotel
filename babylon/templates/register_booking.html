@@ -77,9 +77,24 @@
                     {% endif %}
                 </div>
             </fieldset>
+            <!-- <div class="form-group">
+                <button id="confirm_modal" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#confirmModal" >Reservar</button>
+            </div> -->
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                {{ form.submit(class="btn btn-outline-info", value="Inserir") }}
             </div>
         </form>
     </div>
+    <script>
+        confirmModal = document.querySelector('#confirm_modal')
+        confirmModal.onclick = function(){
+            $("#client_modal").html($("#client").val())
+            $("#number_modal").html($("#number").val())
+            $("#room_modal").html($("#room").val())
+            $("#check_in_modal").html($("#check_in").val().replace('T', ' '))
+            $("#check_out_modal").html($("#check_out").val().replace('T', ' '))
+        };
+        
+    </script>
+
 {% endblock content %}

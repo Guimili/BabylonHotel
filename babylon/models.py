@@ -53,9 +53,10 @@ class Room(db.Model):
 	number = db.Column(db.Integer, unique=True, primary_key=True)
 	price = db.Column(db.Float, nullable=False)
 	floor = db.Column(db.Integer, nullable=False)
-	available = db.Column(db.Boolean, nullable=False, default= True)
-	style = db.relationship('Style', backref='style', lazy=True)
-	pattern = db.relationship('Pattern', backref='pattern', lazy=True)
+	available = db.Column(db.Boolean, nullable=False, default=True)
+	style_id = db.Column(db.Integer, db.ForeignKey('style.id'), nullable=False)
+	pattern_id = db.Column(db.Integer, db.ForeignKey('pattern.id'), nullable=False)
+	booking = db.relationship('Booking', backref='room', lazy=True)
 	
 	def __repr__(self):
 		if self.available:
@@ -66,7 +67,7 @@ class Style(db.Model):
 	name = db.Column(db.String(20), nullable=False)
 	description = db.Column(db.String(200), nullable=False)
 	price = db.Column(db.Float, nullable=False)
-	room_number = db.Column(db.Integer, db.ForeignKey('room.number'), nullable=False)
+	room = db.relationship('Room', backref='style', lazy=True)
 
 	def __repr__(self):
 		return f"Tipo: {self.name}\nDescrição: {self.description}"
@@ -76,7 +77,7 @@ class Pattern(db.Model):
 	name = db.Column(db.String(20), unique=True, nullable=False)
 	description = db.Column(db.String(200), nullable=False)
 	price = db.Column(db.Float, unique=True, nullable=False)
-	room_number = db.Column(db.Integer, db.ForeignKey('room.number'), nullable=False)
+	room = db.relationship('Room', backref='pattern', lazy=True)
 
 	def __repr__(self):
 		return f"Padrão: {self.name}\nDescrição: {self.description}"
@@ -85,6 +86,7 @@ class Products(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(20), unique=True, nullable=False)
 	price = db.Column(db.Float, unique=True, nullable=False)
+	booking = db.relationship('Booking_Products', backref='product', lazy=True)
 
 class Booking(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -92,6 +94,8 @@ class Booking(db.Model):
 	date_entry = db.Column(db.DateTime, nullable=False, default=datetime)
 	date_exit = db.Column(db.DateTime, nullable=False, default=datetime)
 	number_people = db.Column(db.Integer, nullable=False, default=1)
+	price = db.Column(db.Float, nullable=False)
+	concluded = db.Column(db.Boolean, nullable=False, default=False)
 	room_number = db.Column(db.Integer, db.ForeignKey('room.number'), unique=True, nullable=False)
 	employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
@@ -99,3 +103,7 @@ class Booking(db.Model):
 	def __repr__(self):
 		return f"Reserva(ID: {self.id}, Quarto: {self.room_number}, Funcionario: {self}, Cliente: {self.client.name})"
 
+class Booking_Products(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=False)
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)

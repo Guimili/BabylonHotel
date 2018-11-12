@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<article class="media content-section">
+    <div class="media-body">
+      <h2>Quartos {{ title }}</h2>
+    </div>
+</article>
+{% for room in rooms %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <h3>Quarto #<a class="article-title" href="#">{{ room.number }}</a></h3>
+      <h6 style="margin: 0">Tipo: </h6>
+      <p style="margin: 0 0 5px 0">{{ room.style.name }}</p>
+      <h6 style="margin: 0">Padrao: </h6>
+      <p style="margin: 0 0 5px 0">{{ room.pattern.name }}</p>
+      <h6 style="margin: 0">Preço:</h6>
+      <p style="margin: 0 0 5px 0">R$ {{ room.price }}</p>
+    </div>
+  </div>    
+</article>
+{% endfor %}
+
+{% endblock content %}

@@ -21,7 +21,7 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top rounded-bottom shadow">
         <div class="container">
-          <a class="navbar-brand mr-4" href="{{ url_for('home') }}">Hotel Babilônia</a>
+          <a class="navbar-brand mr-4" href="{{ url_for('bookings') }}">Hotel Babilônia</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -64,32 +64,51 @@
             <p class='text-muted' style="font-size: 10px">AGORA ESSA BARRA FUNFAAAAAA
                 {% if  current_user.is_authenticated and current_user.employee.role == 'Admin' %}
                 <li class="list-group-item list-group-item-light">
-                    <a style="text-decoration: none; color: #818182" href="{{ url_for('home') }}">
+                    <a style="text-decoration: none; color: #818182" href="{{ url_for('employees') }}">
                       Listar Funcionários
                     </a>
                 </li>
                 {% endif %}
                 <li class="list-group-item list-group-item-light">
-                    <a style="text-decoration: none; color: #818182" href="{{ url_for('register_client') }}">
-                      Registrar Novo Cliente
-                    </a>
-                </li>
-                <li class="list-group-item list-group-item-light">
-                    <a style="text-decoration: none; color: #818182" href="{{ url_for('search_client') }}">
-                      Buscar Cliente
-                    </a>
-                </li>
-                <li class="list-group-item list-group-item-light">
-                    <a style="text-decoration: none; color: #818182" href="{{ url_for('list_clients') }}">
-                      Listar Clientes
-                    </a>
-                </li>
-                <li class="list-group-item list-group-item-light">
                     <a style="text-decoration: none; color: #818182" href="{{ url_for('register_booking') }}">
                       Reservar
                     </a>
                 </li>
-              </ul>
+                <div>
+                    <a href="#" id="dd" class="dropdown-toggle list-group-item list-group-item-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="list-group-item list-group-item-light">
+                            <a style="text-decoration: none; color: #818182" href="{{ url_for('register_client') }}">
+                              Novo
+                            </a>
+                        </li>
+                        <li class="list-group-item list-group-item-light">
+                            <a style="text-decoration: none; color: #818182" href="{{ url_for('search_client') }}">
+                              Buscar
+                            </a>
+                        </li>
+                        <li class="list-group-item list-group-item-light">
+                            <a style="text-decoration: none; color: #818182" href="{{ url_for('clients') }}">
+                              Listar
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <a href="#" id="dd2" class="dropdown-toggle list-group-item list-group-item-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quartos <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li class="list-group-item list-group-item-light">
+                          <a style="text-decoration: none; color: #818182" href="{{ url_for('list_available_rooms') }}">
+                            Disponíveis
+                          </a>
+                      </li>
+                      <li class="list-group-item list-group-item-light">
+                          <a style="text-decoration: none; color: #818182" href="{{ url_for('list_available_rooms') }}">
+                            Indisponíveis
+                          </a>
+                      </li>
+                    </ul>
+                </div>
             </p>
           </div>
         </div>

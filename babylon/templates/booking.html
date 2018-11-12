@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+        <article class="media content-section">
+          <div class="media-body">
+              <h2 class="arcticle-title">Reserva #{{ booking.id }} <small class="text-muted" style="font-size: 14px">agendada em {{ booking.date_booking.strftime('%d/%m/%Y') }}</small></h2>
+              <div>
+                <button type="button" class="btn btn-secondary btn-sm"><a href="{{ url_for('add_products', booking_id=booking.id) }}" style="text-decoration: none; color: #ffffff" style="text-decoration: none; color:#ffffff"></a>Adicionar Quitutes</a></button>
+                <button type="button" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#concludeModal" >Finalizar</button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" >Cancelar</button>
+              </div>
+              <p class="article-content">
+                <strong>Funcionário responsável: {{ booking.employee.name.upper() }}</strong>
+                <strong style="color: #4e4848">Quarto:</strong> {{ booking.room_number }}
+                <strong style="color: #4e4848">Cliente:</strong> {{ booking.client.name }}
+                <strong style="color: #4e4848">Data de check-in:</strong> {{ booking.date_entry.strftime('%d/%m/%Y %H:%M') }}
+                <strong style="color: #4e4848">Data de check-out:</strong> {{ booking.date_exit.strftime('%d/%m/%Y %H:%M') }}
+                <strong style="color: #4e4848">Preço atual:</strong> {{ booking.price }}
+              </p>
+          </div>
+        </article>
+        {% if products %}
+          <article class="media content-section">
+            <div class="media-body">
+              <h2 class="arcticle-title">Produtos <small class="text-muted" style="font-size: 14px"></small></h2>
+          {% for p in products %}
+                <p class="article-content">
+                  <strong style="color: #4e4848">Produto:</strong> {{ p.product.name }}
+                  <strong style="color: #4e4848">Preço:</strong> R$ {{ '%.2f' % p.product.price }}
+                </p>
+          {% endfor %}
+            </div>
+          </article>
+        {% endif %}
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Certeza que deseja cancelar a Reserva? D:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <form action="{{ url_for('cancel_booking', booking_id=booking.id) }}" method="post">
+                  <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="concludeModal" tabindex="-1" role="dialog" aria-labelledby="concludeModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="concludeModalLabel">Certeza que deseja finalizar a Reserva?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h6>Preço do quarto: R${{ '%.2f' % (booking.room.style.price + booking.room.pattern.price) }}</h6>
+                <h6>Dias permanecidos: {{ (booking.date_exit - booking.date_entry).days }} (R$ {{ '%.2f' % ((booking.date_exit - booking.date_entry).days * (booking.room.style.price + booking.room.pattern.price)) }}) </h6>
+                <h6>Quitutes: {{ products.__len__() }} (R$ {{ '%.2f' % (booking.price - (booking.date_exit - booking.date_entry).days * (booking.room.style.price + booking.room.pattern.price))}})</h6>
+                <h6>Valor total: R${{ '%.2f' % booking.price }}</h6>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <form action="{{ url_for('conclude_booking', booking_id=booking.id) }}" method="post">
+                  <input type="submit" class="btn btn-danger" value="Pagamento Realizado">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock content %}
